@@ -54,7 +54,7 @@ int main()
        << TransMat * data << endl << endl;
 
    cout << "#################################" << endl
-     	<< "Notice that the last row of original data," << endl
+        << "Notice that the last row of original data," << endl
         << "ALL 0, that's redundant!" << endl
         << "So the eigenvectors' last coefficiency should be 0," << endl
         << "and they really are!!!" << endl;
