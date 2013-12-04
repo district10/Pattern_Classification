@@ -55,8 +55,8 @@ int main()
 
    cout << "#################################" << endl
      	<< "Notice that the last row of original data," << endl
-	    << "ALL 0, that's redundant!" << endl
-	    << "So the eigenvectors' last coefficiency should be 0," << endl
+        << "ALL 0, that's redundant!" << endl
+        << "So the eigenvectors' last coefficiency should be 0," << endl
         << "and they really are!!!" << endl;
   
   return 0;
@@ -110,6 +110,7 @@ MatrixXf kl_transform(const MatrixXf& square,int num_shrink = 1)
     --num_shrink;
   }
   projection.erase (projection.begin(), my_end); /// delete these muggles
+ 
   cout << "#########################################" << endl;
   cout << "After drop " << rows - new_rows << " dementions: " << endl;
   for(const auto& item : projection) {
