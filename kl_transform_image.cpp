@@ -93,9 +93,8 @@ int main(int argc, char** argv)
   namedWindow("After", CV_WINDOW_AUTOSIZE);
   imshow("Origin", data);
   imshow("After", output_d);
-  imwrite("doneRGB.bmp", output_d);
-  cvtColor( output_d, output_d, CV_BGR2GRAY );
-  imwrite("doneGRAY.bmp", output_d);
+  
+  imwrite("after_KL_transform.bmp", output_d);
   waitKey(0);
   return 0;
 }
