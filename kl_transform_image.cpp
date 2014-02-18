@@ -20,7 +20,7 @@ int main(int argc, char** argv)
   }
 
   Mat data = imread (argv[1]);
-  assert ( data.data != NULL && "You should load a image" );
+  assert ( data.data != NULL && "You should load an image" );
   assert ( data.channels() == 3 && "Only for 3 channel imag" );
 
   const int rows = (int)data.rows;
