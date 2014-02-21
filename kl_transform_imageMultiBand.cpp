@@ -32,6 +32,13 @@ for (int i = 1; i < argc; ++i) {
 
   assert ( img[i].data != NULL && "Valid Image" );
   assert ( data.channels() == 1 && "Each image single band" );
+
+if( i != 1) {
+assert( img[i].rows == row && img[i].cols == col
+         && "Same size imges");
+}
+static int row = img[i].rows;
+static int col = img[i].cols;
 }
   const int rows = (int)data.rows;
   const int cols = (int)data.cols;
