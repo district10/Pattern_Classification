@@ -21,7 +21,7 @@ Mat kl_transform(const Mat&);
 
 int main(int argc, char** argv)
 {
-  if (argc == 1) {
+  if (argc <= 2) {
     cout << "Error: invalid parameters!" << endl;
     cout << "Usage: " << argv[0] << " <image_files> \n" ;
     exit(-1);
@@ -32,9 +32,9 @@ static int rows, cols, bands;
 bands = argc - 1;
 Mat img[bands];
 for (int i = 0; i < bands; ++i) {
-  img[i] = imread (argv[i + 1]);
+  img[i] = imread (argv[i + 1], CV_LOAD_IMAGE_GRAYSCALE);
   assert ( img[i].data != NULL && "Valid Image" );
-  assert ( data.channels() == 1 && "Each image single band" );
+  assert ( img[i].channels() == 1 && "Each image single band" );
   if( i != 0) {
   assert( img[i].rows == rows && img[i].cols == cols
          && "Same size imges");
