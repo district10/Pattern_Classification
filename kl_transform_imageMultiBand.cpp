@@ -30,6 +30,8 @@ int main(int argc, char** argv)
 
   static int rows, cols, bands;
   bands = argc - 1;
+
+  // Load Images
   Mat img[bands];
   for (int i = 0; i < bands; ++i) {
     img[i] = imread (argv[i + 1], CV_LOAD_IMAGE_GRAYSCALE);
@@ -43,16 +45,8 @@ int main(int argc, char** argv)
     cols = img[i].cols;
   }
 
+  // Display loaded images
   cout << "Image: [" << rows << ", " << cols << "]." << endl;
-  /*
-    C++: void Mat::convertTo
-    (OutputArray m, int rtype, double alpha=1, double beta=0 ) const
-  */
-
-
-
-
-
   for (int i = 0; i < bands; ++i) {
     static char  win_name[20];
     sprintf(win_name, "band_%2d", i + 1);
@@ -60,7 +54,7 @@ int main(int argc, char** argv)
     imshow(win_name, img[i]);
   }
 
-
+  // Prepare R
   Mat img_f[bands], Rn[bands];
   Mat R = Mat(bands, rows*cols, CV_32FC1);
   for (int i = 0; i < bands; ++i) {
@@ -69,15 +63,16 @@ int main(int argc, char** argv)
     Rn[i].row(0).copyTo(R.row(i));
   }
 
+  // Now, processing R
   Mat m; // m => mean (row wise)
   reduce (R, m, 1 /* apply to row */, CV_REDUCE_AVG);
   assert (m.rows == R.rows /* ==bands */
           && m.cols == 1
 	  && "m: mean of all samples");
-
   Mat RR = R / R.cols * R.t() + m / R.cols * m.t();
   cout << RR << endl;
 
+  // KL-Transform
   Mat TransMat = kl_transform(RR); 
   cout << "The Transforming Matrix is:"
        << TransMat << endl;
@@ -86,13 +81,13 @@ int main(int argc, char** argv)
   Mat output = Mat(rows, cols, CV_32FC1, smp_done.data);
   Mat output_d;
 
+  // Convert to Gray Image, Display it, save it
   output.convertTo(output_d, CV_8UC1);
   //assert (output_d.type() == data.type()
   //	  && "Same datatype");
   
   namedWindow("After", CV_WINDOW_AUTOSIZE);
   imshow("After", output_d);
-  
   imwrite("after_KL_transform.bmp", output_d);
   waitKey(0);
   return 0;
