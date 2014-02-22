@@ -2,8 +2,8 @@
  * @Author: Gnat TANG,(唐志雄)
  * @Emial: <gnat_tang@yeah.net>
  * How to Compile it? 
- * g++ -ggdb -std=c++0x`pkg-config --cflags opencv` `pkg-config --libs opencv` \
- *               kl_transform_imageMultiBand.cpp -o kl_transform_imageMultiBand 
+ * g++ -ggdb -std=c++0x `pkg-config opencv --cflags --libs` \
+ *          kl_transform_imageMultiBand.cpp -o kl_transform_imageMultiBand 
  * /
 #include <iostream>
 #include <cassert>
