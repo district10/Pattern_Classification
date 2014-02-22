@@ -4,7 +4,7 @@
  * How to Compile it? 
  * g++ -ggdb -std=c++0x `pkg-config opencv --cflags --libs` \
  *          kl_transform_imageMultiBand.cpp -o kl_transform_imageMultiBand 
- * /
+ */
 #include <iostream>
 #include <cassert>
 #include <map>
@@ -28,22 +28,22 @@ int main(int argc, char** argv)
   }
 
 
-static int rows, cols, bands;
-bands = argc - 1;
-Mat img[bands];
-for (int i = 0; i < bands; ++i) {
-  img[i] = imread (argv[i + 1], CV_LOAD_IMAGE_GRAYSCALE);
-  assert ( img[i].data != NULL && "Valid Image" );
-  assert ( img[i].channels() == 1 && "Each image single band" );
-  if( i != 0) {
-  assert( img[i].rows == rows && img[i].cols == cols
-         && "Same size imges");
+  static int rows, cols, bands;
+  bands = argc - 1;
+  Mat img[bands];
+  for (int i = 0; i < bands; ++i) {
+    img[i] = imread (argv[i + 1], CV_LOAD_IMAGE_GRAYSCALE);
+    assert ( img[i].data != NULL && "Valid Image" );
+    assert ( img[i].channels() == 1 && "Each image single band" );
+    if( i != 0) {
+      assert( img[i].rows == rows && img[i].cols == cols
+	      && "Same size imges");
+    }
+    rows = img[i].rows;
+    cols = img[i].cols;
   }
-  rows = img[i].rows;
-  cols = img[i].cols;
-}
 
-  cout << "Image: [" << rows << ", " << col << "]." << endl;
+  cout << "Image: [" << rows << ", " << cols << "]." << endl;
   /*
     C++: void Mat::convertTo
     (OutputArray m, int rtype, double alpha=1, double beta=0 ) const
@@ -53,20 +53,21 @@ for (int i = 0; i < bands; ++i) {
 
 
 
-for (int i = 0; i < bands; ++i) {
-  static char * win_name[20];
-  sprintf(win_name, "band_%2d", i + 1);
-  namedWindow(win_name, CV_WINDOW_AUTOSIZE);
-  imshow(win_name, img[i]);
-}
+  for (int i = 0; i < bands; ++i) {
+    static char  win_name[20];
+    sprintf(win_name, "band_%2d", i + 1);
+    namedWindow(win_name, CV_WINDOW_AUTOSIZE);
+    imshow(win_name, img[i]);
+  }
 
-Mat img_f[bands], Rn[bands];
-Mat R = Mat(bands, rows*cols, CV_32FC1);
-for (int i = 0; i < bands; ++i) {
-  img[i].convertTo(img_f[i], CV_32FC1);
-  Rn[i] = Mat(1, rows*cols, CV_32FC1, img_f[i].data);
-  Rn[i].row(0).copyTo(R.row(i));
-}
+
+  Mat img_f[bands], Rn[bands];
+  Mat R = Mat(bands, rows*cols, CV_32FC1);
+  for (int i = 0; i < bands; ++i) {
+    img[i].convertTo(img_f[i], CV_32FC1);
+    Rn[i] = Mat(1, rows*cols, CV_32FC1, img_f[i].data);
+    Rn[i].row(0).copyTo(R.row(i));
+  }
 
   Mat m; // m => mean (row wise)
   reduce (R, m, 1 /* apply to row */, CV_REDUCE_AVG);
