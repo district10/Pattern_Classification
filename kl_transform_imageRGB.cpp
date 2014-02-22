@@ -4,7 +4,7 @@
  * How to Compile it? 
  * g++ -ggdb -std=c++0x`pkg-config --cflags opencv` `pkg-config --libs opencv` \
  *                                kl_transform_image.cpp -o kl_transform_image 
- * /
+ */
 #include <iostream>
 #include <cassert>
 #include <map>
