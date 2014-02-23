@@ -7,8 +7,6 @@
  */
 #include <iostream>
 #include <cassert>
-#include <map>
-#include <vector>
 #include <cv.h>
 #include <highgui.h>
 #include <cstdio>
